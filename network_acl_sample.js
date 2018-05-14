@@ -108,6 +108,7 @@ var networkAcls = {
     ],
     
     // Virtual network rules (Allows access to Azure Virtual Networks by their Azure Resource ID)
+    // To specifically allow access to a vnet, uncomment the line below and replace the id with the corerct id value for your Vnet
     virtualNetworkRules: [
         // { 'id': '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1' }
     ]
