@@ -86,7 +86,7 @@ function createVault(networkAcls) {
             
         // Create the sample key vault using the KV management client.
         return kvManagementClient.vaults.createOrUpdate(groupName, kvName, kvParams);
-    }).then( (result) => {
+    }).then( (result, err) => {
         console.log("Vault created with URI '" + result.properties.vaultUri + "'");
     })
     .catch( (err) => { 
@@ -109,7 +109,7 @@ var networkAcls = {
     
     // Virtual network rules (Allows access to Azure Virtual Networks by their Azure Resource ID)
     virtualNetworkRules: [
-        { 'value': '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1' }
+        // { 'id': '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1' }
     ]
 };
     
