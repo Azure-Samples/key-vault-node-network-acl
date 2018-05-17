@@ -16,7 +16,7 @@ This sample repo demonstrates how to create an Azure Key Vault with access limit
 2. Clone the repo.
 
    ```
-   git clone https://github.com/Azure-Samples/key-vault-node-authentication.git key-vault
+   git clone https://github.com/Azure-Samples/key-vault-node-network-acl.git key-vault
    ```
 
 3. Install the dependencies.
