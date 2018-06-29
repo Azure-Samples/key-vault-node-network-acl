@@ -20,11 +20,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "adal-node": "^0.1.28",
     "azure-arm-keyvault": "^1.1.2",
-    "azure-arm-resource": "^3.1.0-preview",
-    "azure-keyvault": "^3.0.4",
-    "ms-rest-azure": "^2.5.5"
+    "azure-arm-resource": "^3.1.1-preview",
+    "azure-keyvault": "^3.0.4"
   },
   "homepage": "https://github.com/Azure-Samples/key-vault-node-network-acl",
   "repository": {
