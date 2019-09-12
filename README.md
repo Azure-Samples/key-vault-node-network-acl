@@ -1,7 +1,11 @@
 ---
-services: key-vault
-platforms: nodejs
-author: lusitanian
+page_type: sample
+languages:
+- javascript
+products:
+- azure
+description: "This sample repo demonstrates how to create an Azure Key Vault with access limited to specific IP ranges and Azure Virtual Networks."
+urlFragment: key-vault-node-network-acl
 ---
 
 # Vnet/IP ACL sample for Azure Key Vault using the Azure Node SDK
