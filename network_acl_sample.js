@@ -20,7 +20,7 @@ function _validateEnvironmentVariables() {
 }
 
 const util = require('util');
-const { ClientSecretCredential } = require("@azure/identity")
+const { DefaultAzureCredential } = require("@azure/identity")
 const { KeyVaultManagementClient } = require('@azure/arm-keyvault');
 const { ResourceManagementClient } = require('@azure/arm-resources');
 const random_id = require('./random_id');
@@ -47,7 +47,7 @@ const kvName = random_id();
 // Then creates a key vault in this group with specified network ACL rules.
 async function createVault(networkAcls) {
     
-    const credentials = new ClientSecretCredential(tenantId,clientId,secret);
+    const credentials = new DefaultAzureCredential();
     const resourceClient = new ResourceManagementClient(credentials, subscriptionId);
     const kvManagementClient = new KeyVaultManagementClient(credentials, subscriptionId);
     try{
