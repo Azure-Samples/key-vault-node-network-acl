@@ -20,11 +20,9 @@ function _validateEnvironmentVariables() {
 }
 
 const util = require('util');
-const msRestAzure = require('ms-rest-azure');
-const KeyVault = require('azure-keyvault');
-const AuthenticationContext = require('adal-node').AuthenticationContext;
-const KeyVaultManagementClient = require('azure-arm-keyvault');
-const ResourceManagementClient = require('azure-arm-resource').ResourceManagementClient;
+const { DefaultAzureCredential } = require("@azure/identity")
+const { KeyVaultManagementClient } = require('@azure/arm-keyvault');
+const { ResourceManagementClient } = require('@azure/arm-resources');
 const random_id = require('./random_id');
 
 // Sample config
@@ -47,23 +45,21 @@ const kvName = random_id();
 
 // Uses the resource management client to create a sample resource group
 // Then creates a key vault in this group with specified network ACL rules.
-function createVault(networkAcls) {
-    var resourceClient;
-    var kvManagementClient;
+async function createVault(networkAcls) {
     
-    msRestAzure.loginWithServicePrincipalSecret(clientId, secret, tenantId)
-    .then( (credentials) => {
-        resourceClient = new ResourceManagementClient(credentials, subscriptionId);
-        kvManagementClient = new KeyVaultManagementClient(credentials, subscriptionId);
-        
-        // Create sample resource group. 
+    const credentials = new DefaultAzureCredential();
+    const resourceClient = new ResourceManagementClient(credentials, subscriptionId);
+    const kvManagementClient = new KeyVaultManagementClient(credentials, subscriptionId);
+    try{
+        // Create sample resource group.
         console.log("Creating resource group: " + groupName);
-        return resourceClient.resourceGroups.createOrUpdate(groupName, { location: azureLocation });
-    }).then( () => {
+        await resourceClient.resourceGroups.createOrUpdate(groupName, { location: azureLocation });
+
         const kvParams = {
             location: azureLocation,
             properties: {
                 sku: { 
+                    family:'A',
                     name: 'standard'
                 },
                 networkAcls: networkAcls, // pass the network ACLs
@@ -83,17 +79,15 @@ function createVault(networkAcls) {
         };
             
         console.log("Creating key vault: " + kvName);
-            
-        // Create the sample key vault using the KV management client.
-        return kvManagementClient.vaults.createOrUpdate(groupName, kvName, kvParams);
-    }).then( (result, err) => {
-        console.log("Vault created with URI '" + result.properties.vaultUri + "'");
-    })
-    .catch( (err) => { 
-        console.log(err); 
-    });
-}
 
+        // Create the sample key vault using the KV management client.
+        const result = await kvManagementClient.vaults.beginCreateOrUpdateAndWait(groupName, kvName, kvParams);
+        console.log("Vault created with URI '" + result.properties.vaultUri + "'");
+    }catch(error){
+        console.log(error)
+    }
+    
+}
 
 // Network ACL definitions
 // The only action supported for virtual network and IP rules is "allow". 
